@@ -14,6 +14,7 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     let verticalPipeGap = 150.0
     
+    var cam:SKCameraNode!
     var car:SKSpriteNode!
     var skyColor:SKColor!
     var pipeTextureUp:SKTexture!
@@ -143,6 +144,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ground.physicsBody?.categoryBitMask = worldCategory
         self.addChild(ground)
 
+        //create camera
+        cam = SKCameraNode()
+        //cam.setScale(CGFloat())//the scale sets the zoom level of the camera on the given position
+        self.camera = cam //set the scene's camera to reference cam
+        self.addChild(cam) //make the cam a childElement of the scene itself.
+        //position the camera on the gamescene.
+        cam.position = car.position
 
     }
     
@@ -249,7 +257,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         else{
             if (moving.speed > 0){
-                moving.speed -= 0.2
+                moving.speed -= 0.1
             }
         }
         
@@ -258,11 +266,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     
     func didBegin(_ contact: SKPhysicsContact) {
-        moving.speed = 0.0
+        
         isTouch = false
         if ((contact.bodyA.categoryBitMask == pipeCategory)){
          
-            car.physicsBody?.applyImpulse(CGVector(dx: -10, dy: 0))
+            car.physicsBody?.applyImpulse(CGVector(dx: -moving.speed * 2, dy: 0))
             
             
             Circle2.physicsBody = SKPhysicsBody(circleOfRadius: 20)
@@ -315,8 +323,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             arm2.position = CGPoint (x: car.position.x + 40 , y: car.position.y + 20)
             addChild(arm2)
             
-            
-            
             Circle.physicsBody = SKPhysicsBody(circleOfRadius: 20)
             Circle.physicsBody?.isDynamic = true
             
@@ -341,8 +347,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.physicsWorld.add(man2)
             self.physicsWorld.add(man1)
             self.physicsWorld.add(man)
-            man.bodyA.applyImpulse(CGVector(dx: 150,dy: 150))
             
+            cam.position = arm1.position
+            
+            man.bodyA.applyImpulse(CGVector(dx: moving.speed * 25,dy: moving.speed * 25))
+            moving.speed = 0.0
             //Circle.physicsBody?.applyImpulse(CGVector(dx: 20,dy: 20))
         }
         
@@ -354,15 +363,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bmask = contact.bodyB.categoryBitMask
         
         if amask == worldCategory && bmask == armCategory ||  bmask == worldCategory && amask == armCategory {
-            print("It was arm!!!")
+            print("It was arm!!! %.6f", contact.collisionImpulse)
         }
         if amask == worldCategory && bmask == legCategory ||  bmask == worldCategory && amask == legCategory {
-            print("It was leg!!!")
+            print("It was leg!!! %.6f", contact.collisionImpulse)
         }
-        // if amask == worldCategory && bmask == headCategory ||  bmask == worldCategory && amask == headCategory {
-        //    print("It was head!!!")
-        //    contact.bodyB.
-        //}
+        if amask == worldCategory && bmask == headCategory ||  bmask == worldCategory && amask == headCategory {
+           print("It was head!!! %.6f", contact.collisionImpulse)
+        
+        }
         
         
         
