@@ -11,6 +11,196 @@
 import SpriteKit
 import GameplayKit
 
+
+let carCategory: UInt32 = 1 << 0
+let worldCategory: UInt32 = 1 << 1
+let pipeCategory: UInt32 = 1 << 2
+let scoreCategory: UInt32 = 1 << 3
+let circleCategory: UInt32 = 1 << 4
+let armCategory: UInt32 = 1 << 5
+let legCategory: UInt32 = 1 << 6
+let headCategory: UInt32 = 1 << 7
+
+
+class Human: SKNode {
+    let Circle2 = SKShapeNode(circleOfRadius:30)
+    let leg1 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
+    let leg2 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
+    let arm1 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
+    let arm2 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
+    let  Circle = SKShapeNode(circleOfRadius:20)
+
+    var man = SKPhysicsJointFixed()
+    var man1 = SKPhysicsJointFixed()
+    var man2 = SKPhysicsJointFixed()
+    var man3 = SKPhysicsJointFixed()
+    var man4 = SKPhysicsJointFixed()
+    var man5 = SKPhysicsJointSpring()
+    
+    init(pos: CGPoint) {
+        super.init()
+        Circle2.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        Circle2.physicsBody?.isDynamic = true
+        Circle2.physicsBody?.categoryBitMask = circleCategory
+        Circle2.physicsBody?.collisionBitMask =  worldCategory
+        Circle2.physicsBody?.contactTestBitMask = worldCategory
+        Circle2.fillColor = SKColor.red
+        Circle2.position = CGPoint (x: pos.x - 30, y: pos.y)
+        addChild(Circle2)
+        
+        leg1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 20))
+        leg1.physicsBody?.isDynamic = true
+        leg1.physicsBody?.categoryBitMask = legCategory
+        leg1.physicsBody?.collisionBitMask =  worldCategory
+        leg1.physicsBody?.contactTestBitMask = worldCategory
+        leg1.fillColor = SKColor.red
+        leg1.position = CGPoint (x: pos.x - 80 , y: pos.y - 20)
+        addChild(leg1)
+        
+        
+        leg2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 90, height: 20))
+        leg2.physicsBody?.isDynamic = true
+        leg2.physicsBody?.categoryBitMask = legCategory
+        leg2.physicsBody?.collisionBitMask =  worldCategory
+        leg2.physicsBody?.contactTestBitMask = worldCategory
+        leg2.fillColor = SKColor.red
+        leg2.position = CGPoint (x: pos.x - 80 , y: pos.y + 20)
+        addChild(leg2)
+        
+        
+        arm1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 90, height: 20))
+        arm1.physicsBody?.isDynamic = true
+        arm1.physicsBody?.categoryBitMask = armCategory
+        arm1.physicsBody?.collisionBitMask =  worldCategory
+        arm1.physicsBody?.contactTestBitMask = worldCategory
+        arm1.fillColor = SKColor.red
+        arm1.position = CGPoint (x: pos.x + 40 , y: pos.y - 20)
+        addChild(arm1)
+        
+        
+        arm2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 90, height: 20))
+        arm2.physicsBody?.isDynamic = true
+        arm2.physicsBody?.categoryBitMask = armCategory
+        arm2.physicsBody?.collisionBitMask =  worldCategory
+        arm2.physicsBody?.contactTestBitMask = worldCategory
+        arm2.fillColor = SKColor.red
+        arm2.position = CGPoint (x: pos.x + 40 , y: pos.y + 20)
+        addChild(arm2)
+        
+        Circle.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        Circle.physicsBody?.isDynamic = true
+        
+        Circle.physicsBody?.categoryBitMask = headCategory
+        Circle.physicsBody?.collisionBitMask =  worldCategory
+        Circle.physicsBody?.contactTestBitMask = worldCategory
+        Circle.fillColor = SKColor.red
+        Circle.position = pos
+        addChild(Circle)
+        
+        man = SKPhysicsJointFixed.joint(withBodyA: Circle.physicsBody!, bodyB: Circle2.physicsBody!, anchor: CGPoint (x: pos.x - 20, y: pos.y))
+        man1 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: leg1.physicsBody!, anchor: CGPoint(x: pos.x - 45, y: pos.y + 20))
+        man2 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: leg2.physicsBody!, anchor: CGPoint(x: pos.x - 45, y: pos.y + 20))
+        //let man3 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: arm1.physicsBody!, anchor: CGPoint(x: bird.position.x - 45, y: bird.position.y + 20))
+        man4 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: arm2.physicsBody!, anchor: CGPoint(x: pos.x - 45, y: pos.y + 20))
+        man5 = SKPhysicsJointSpring.joint(withBodyA: Circle2.physicsBody!, bodyB: arm1.physicsBody!, anchorA: CGPoint(x: pos.x - 5 , y: pos.y + 5), anchorB: CGPoint(x: pos.x  , y: pos.y ))
+    }
+    
+    func add(to scene: SKScene) {
+        scene.addChild(self)
+        scene.physicsWorld.add(man)
+        scene.physicsWorld.add(man1)
+        scene.physicsWorld.add(man2)
+        scene.physicsWorld.add(man4)
+        scene.physicsWorld.add(man5)
+    }
+    
+    func impulse(force: CGFloat){
+        Circle2.physicsBody?.applyImpulse(CGVector(dx: force * 25,dy: force * 25))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class Car: SKNode{
+    
+
+    //let bodyCar = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: 120.0, height: 40.0))
+    let bodyCar = SKShapeNode(rectOf: CGSize(width: 120.0, height: 40.0))
+    let circle1 = SKShapeNode(circleOfRadius:20)
+    let circle2 = SKShapeNode(circleOfRadius:20)
+    var pinCircle1 = SKPhysicsJointPin()
+    var pinCircle2 = SKPhysicsJointPin()
+    var pinCircle1Fix = SKPhysicsJointFixed()
+    var pinCircle2Fix = SKPhysicsJointFixed()
+
+    
+     override init() {
+        super.init()
+
+
+        bodyCar.physicsBody = SKPhysicsBody(rectangleOf: bodyCar.frame.size)
+        bodyCar.physicsBody?.categoryBitMask = carCategory
+        bodyCar.physicsBody?.collisionBitMask =  worldCategory
+        bodyCar.physicsBody?.contactTestBitMask = worldCategory
+        bodyCar.physicsBody?.isDynamic = true
+        bodyCar.fillColor = SKColor.yellow
+        
+        addChild(bodyCar)
+        
+        circle1.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        circle1.fillColor = SKColor.black
+        circle1.physicsBody?.categoryBitMask = circleCategory
+        circle1.physicsBody?.collisionBitMask =  worldCategory
+        circle1.physicsBody?.contactTestBitMask = worldCategory | carCategory
+        circle1.physicsBody?.isDynamic = true
+        
+        addChild(circle1)
+        
+        circle2.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        circle2.fillColor = SKColor.black
+        circle2.physicsBody?.categoryBitMask = circleCategory
+        circle2.physicsBody?.collisionBitMask =  worldCategory
+        circle2.physicsBody?.contactTestBitMask = worldCategory | carCategory
+        circle2.physicsBody?.isDynamic = true
+        
+        addChild(circle2)
+        
+        //pinCircle1 = SKPhysicsJointPin.joint(withBodyA: bodyCar.physicsBody!, bodyB: circle1.physicsBody!, anchor: CGPoint (x: bodyCar.position.x - 40, y: bodyCar.position.y-10))
+        //pinCircle2 = SKPhysicsJointPin.joint(withBodyA: bodyCar.physicsBody!, bodyB: circle2.physicsBody!, anchor: CGPoint (x: bodyCar.position.x + 40, y: bodyCar.position.y-10))
+        pinCircle1Fix = SKPhysicsJointFixed.joint(withBodyA: bodyCar.physicsBody!, bodyB: circle1.physicsBody!, anchor: CGPoint (x: bodyCar.position.x - 40, y: bodyCar.position.y-10))
+        pinCircle2Fix = SKPhysicsJointFixed.joint(withBodyA: bodyCar.physicsBody!, bodyB: circle2.physicsBody!, anchor: CGPoint (x: bodyCar.position.x + 40, y: bodyCar.position.y-10))
+        
+      
+        
+
+    }
+    
+    func add(to scene: SKScene) {
+        bodyCar.position = CGPoint(x: scene.frame.width * 0.55, y: scene.frame.height * 0.6)
+        circle1.position = CGPoint(x: bodyCar.position.x - 40, y: bodyCar.position.y-10)
+        circle2.position = CGPoint(x: bodyCar.position.x + 40, y: bodyCar.position.y-10)
+        
+        scene.addChild(self)
+        //scene.physicsWorld.add(pinCircle1)
+        //scene.physicsWorld.add(pinCircle2)
+        scene.physicsWorld.add(pinCircle1Fix)
+        scene.physicsWorld.add(pinCircle2Fix)
+        
+        
+    }
+    
+    
+    func run (speed: CGFloat){
+        circle1.physicsBody?.applyTorque(speed)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     let verticalPipeGap = 150.0
     
@@ -23,28 +213,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var canRestart = Bool()
     var movePipesAndRemove:SKAction!
     var pipeTextureDown:SKTexture!
-
-    
-    let Circle2 = SKShapeNode(circleOfRadius:30)
-    let leg1 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
-    let leg2 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
-    let arm1 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
-    let arm2 = SKShapeNode(ellipseOf: CGSize(width: 70, height: 25))
-    let  Circle = SKShapeNode(circleOfRadius:20)
-
-    
-    let carCategory: UInt32 = 1 << 0
-    let worldCategory: UInt32 = 1 << 1
-    let pipeCategory: UInt32 = 1 << 2
-    let scoreCategory: UInt32 = 1 << 3
-    let circleCategory: UInt32 = 1 << 4
-    let armCategory: UInt32 = 1 << 5
-    let legCategory: UInt32 = 1 << 6
-    let headCategory: UInt32 = 1 << 7
-    
  
     var isTouch = false
-
+    let myNewCar = Car()
 
     
     override func didMove(to view: SKView) {
@@ -64,6 +235,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pipes = SKNode()
         moving.addChild(pipes)
         moving.speed = 0.0;
+        
+        
         
         
         // ground
@@ -118,7 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let spawnThenDelayForever = SKAction.repeatForever(spawnThenDelay)
         self.run(spawnThenDelayForever)
         
-        // setup our bird
+       // setup our bird
         let carTexture1 = SKTexture(imageNamed: "bird-01")
         carTexture1.filteringMode = .nearest
         car = SKSpriteNode(texture: carTexture1)
@@ -151,6 +324,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(cam) //make the cam a childElement of the scene itself.
         //position the camera on the gamescene.
         cam.position = car.position
+        
+        
+        
+        
+
+
+        //create myCar
+        
+        myNewCar.add(to: self)
 
     }
     
@@ -218,9 +400,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
-        car.speed = 1.0
+        car.speed = 0
         isTouch = true
         
+        
+        myNewCar.run(speed: 5)
         //if moving.speed > 0  {
         /*for touch: AnyObject in touches {
          let location = touch.location(in: self)
@@ -273,86 +457,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             car.physicsBody?.applyImpulse(CGVector(dx: -moving.speed * 2, dy: 0))
             
             
-            Circle2.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-            Circle2.physicsBody?.isDynamic = true
-            Circle2.physicsBody?.categoryBitMask = circleCategory
-            Circle2.physicsBody?.collisionBitMask =  worldCategory
-            Circle2.physicsBody?.contactTestBitMask = worldCategory
-            Circle2.fillColor = SKColor.red
-            Circle2.position = CGPoint (x: car.position.x - 30, y: car.position.y)
-            addChild(Circle2)
             
             
-            leg1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 20))
-            leg1.physicsBody?.isDynamic = true
-            leg1.physicsBody?.categoryBitMask = legCategory
-            leg1.physicsBody?.collisionBitMask =  worldCategory
-            leg1.physicsBody?.contactTestBitMask = worldCategory
-            leg1.fillColor = SKColor.red
-            leg1.position = CGPoint (x: car.position.x - 80 , y: car.position.y - 20)
             
-            addChild(leg1)
+            let man = Human(pos: car.position)
+            man.add(to: self)
+            man.impulse(force: moving.speed)
             
-            
-            leg2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 90, height: 20))
-            leg2.physicsBody?.isDynamic = true
-            leg2.physicsBody?.categoryBitMask = legCategory
-            leg2.physicsBody?.collisionBitMask =  worldCategory
-            leg2.physicsBody?.contactTestBitMask = worldCategory
-            leg2.fillColor = SKColor.red
-            leg2.position = CGPoint (x: car.position.x - 80 , y: car.position.y + 20)
-            addChild(leg2)
-            
-            
-            arm1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 90, height: 20))
-            arm1.physicsBody?.isDynamic = true
-            arm1.physicsBody?.categoryBitMask = armCategory
-            arm1.physicsBody?.collisionBitMask =  worldCategory
-            arm1.physicsBody?.contactTestBitMask = worldCategory
-            arm1.fillColor = SKColor.red
-            arm1.position = CGPoint (x: car.position.x + 40 , y: car.position.y - 20)
-            addChild(arm1)
-            
-            
-            arm2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 90, height: 20))
-            arm2.physicsBody?.isDynamic = true
-            arm2.physicsBody?.categoryBitMask = armCategory
-            arm2.physicsBody?.collisionBitMask =  worldCategory
-            arm2.physicsBody?.contactTestBitMask = worldCategory
-            arm2.fillColor = SKColor.red
-            arm2.position = CGPoint (x: car.position.x + 40 , y: car.position.y + 20)
-            addChild(arm2)
-            
-            Circle.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-            Circle.physicsBody?.isDynamic = true
-            
-            Circle.physicsBody?.categoryBitMask = headCategory
-            Circle.physicsBody?.collisionBitMask =  worldCategory
-            Circle.physicsBody?.contactTestBitMask = worldCategory
-            Circle.fillColor = SKColor.red
-            Circle.position = car.position
-            addChild(Circle)
-            
-            let man = SKPhysicsJointFixed.joint(withBodyA: Circle.physicsBody!, bodyB: Circle2.physicsBody!, anchor: CGPoint (x: car.position.x - 20, y: car.position.y))
-            let man1 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: leg1.physicsBody!, anchor: CGPoint(x: car.position.x - 45, y: car.position.y + 20))
-            let man2 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: leg2.physicsBody!, anchor: CGPoint(x: car.position.x - 45, y: car.position.y + 20))
-            //let man3 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: arm1.physicsBody!, anchor: CGPoint(x: bird.position.x - 45, y: bird.position.y + 20))
-            let man4 = SKPhysicsJointFixed.joint(withBodyA: Circle2.physicsBody!, bodyB: arm2.physicsBody!, anchor: CGPoint(x: car.position.x - 45, y: car.position.y + 20))
-            
-            let man5 = SKPhysicsJointSpring.joint(withBodyA: Circle2.physicsBody!, bodyB: arm1.physicsBody!, anchorA: CGPoint(x: car.position.x - 5 , y: car.position.y + 5), anchorB: CGPoint(x: car.position.x  , y: car.position.y ))
-            
-            self.physicsWorld.add(man5)
-            //self.physicsWorld.add(man3)
-            self.physicsWorld.add(man4)
-            self.physicsWorld.add(man2)
-            self.physicsWorld.add(man1)
-            self.physicsWorld.add(man)
-            
-            cam.position = arm1.position
-            
-            man.bodyA.applyImpulse(CGVector(dx: moving.speed * 25,dy: moving.speed * 25))
             moving.speed = 0.0
-            //Circle.physicsBody?.applyImpulse(CGVector(dx: 20,dy: 20))
         }
         
         /*if (contact.bodyA.categoryBitMask & contact.bodyB.categoryBitMask) != 0 {
