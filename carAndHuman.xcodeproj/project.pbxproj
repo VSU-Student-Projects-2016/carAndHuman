@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE4E9E601DBB685E00D30148 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AE4E9E5F1DBB685E00D30148 /* GameScene.sks */; };
 		AEBD3B081DA902AA00A8BEE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD3B071DA902AA00A8BEE1 /* AppDelegate.swift */; };
 		AEBD3B0C1DA902AA00A8BEE1 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEBD3B0B1DA902AA00A8BEE1 /* Actions.sks */; };
 		AEBD3B0E1DA902AA00A8BEE1 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD3B0D1DA902AA00A8BEE1 /* GameScene.swift */; };
@@ -14,11 +15,10 @@
 		AEBD3B131DA902AA00A8BEE1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEBD3B111DA902AA00A8BEE1 /* Main.storyboard */; };
 		AEBD3B151DA902AA00A8BEE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEBD3B141DA902AA00A8BEE1 /* Assets.xcassets */; };
 		AEBD3B181DA902AA00A8BEE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEBD3B161DA902AA00A8BEE1 /* LaunchScreen.storyboard */; };
-		AEBD3B291DA909B500A8BEE1 /* bird.atlas in Resources */ = {isa = PBXBuildFile; fileRef = AEBD3B281DA909B500A8BEE1 /* bird.atlas */; };
-		AEBD3B2B1DA912F000A8BEE1 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AEBD3B2A1DA912F000A8BEE1 /* GameScene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AE4E9E5F1DBB685E00D30148 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = GameScene.sks; path = "../../../Downloads/play-master/play/GameScene.sks"; sourceTree = "<group>"; };
 		AEBD3B041DA902AA00A8BEE1 /* carAndHuman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = carAndHuman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEBD3B071DA902AA00A8BEE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AEBD3B0B1DA902AA00A8BEE1 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -28,8 +28,6 @@
 		AEBD3B141DA902AA00A8BEE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AEBD3B171DA902AA00A8BEE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AEBD3B191DA902AA00A8BEE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AEBD3B281DA909B500A8BEE1 /* bird.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = bird.atlas; path = "../../../../Downloads/FlappySwift-master-2/FlappyBird/bird.atlas"; sourceTree = "<group>"; };
-		AEBD3B2A1DA912F000A8BEE1 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = GameScene.sks; path = "../../../../Downloads/FlappySwift-master-2/FlappyBird/GameScene.sks"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,14 +60,13 @@
 		AEBD3B061DA902AA00A8BEE1 /* carAndHuman */ = {
 			isa = PBXGroup;
 			children = (
-				AEBD3B2A1DA912F000A8BEE1 /* GameScene.sks */,
+				AE4E9E5F1DBB685E00D30148 /* GameScene.sks */,
 				AEBD3B071DA902AA00A8BEE1 /* AppDelegate.swift */,
 				AEBD3B0B1DA902AA00A8BEE1 /* Actions.sks */,
 				AEBD3B0D1DA902AA00A8BEE1 /* GameScene.swift */,
 				AEBD3B0F1DA902AA00A8BEE1 /* GameViewController.swift */,
 				AEBD3B111DA902AA00A8BEE1 /* Main.storyboard */,
 				AEBD3B141DA902AA00A8BEE1 /* Assets.xcassets */,
-				AEBD3B281DA909B500A8BEE1 /* bird.atlas */,
 				AEBD3B161DA902AA00A8BEE1 /* LaunchScreen.storyboard */,
 				AEBD3B191DA902AA00A8BEE1 /* Info.plist */,
 			);
@@ -135,11 +132,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEBD3B291DA909B500A8BEE1 /* bird.atlas in Resources */,
 				AEBD3B131DA902AA00A8BEE1 /* Main.storyboard in Resources */,
 				AEBD3B151DA902AA00A8BEE1 /* Assets.xcassets in Resources */,
-				AEBD3B2B1DA912F000A8BEE1 /* GameScene.sks in Resources */,
 				AEBD3B181DA902AA00A8BEE1 /* LaunchScreen.storyboard in Resources */,
+				AE4E9E601DBB685E00D30148 /* GameScene.sks in Resources */,
 				AEBD3B0C1DA902AA00A8BEE1 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +311,7 @@
 				AEBD3B1E1DA902AA00A8BEE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
